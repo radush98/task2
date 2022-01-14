@@ -7,9 +7,11 @@ import notes from "../data/notes";
 export const Home = () => {
     return (
         <Fragment>
-            <h1>Home</h1>
+            <h1>Notes</h1>
             <Table notes={notes}></Table>
-            <Control name={'Archive'} link = {'/archive'}></Control>
+            <div className="main-controls">
+                <Control name={'Archive'} link={'/archive'}></Control>
+            </div>
             <Form></Form>
         </Fragment>
     )

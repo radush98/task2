@@ -1,16 +1,22 @@
 import React from "react";
+import { categories } from "../data/categories";
 
 export const Form = () => {
     return (
-        <form className="form hidden" id="form">
+        <form className="form" id="form">
             <div className="form-element">
                 <label htmlFor="name">Name:</label>
-                <input type="text" id="name" required/>
+                <input type="text" id="name" required />
             </div>
 
             <div className="form-element">
                 <label htmlFor="category">Category:</label>
                 <select id="category">
+                    {
+                        categories.map(category => (
+                            <option value={category.name} key={categories.indexOf(category)}>{category.name}</option>
+                        ))
+                    }
                 </select>
             </div>
 

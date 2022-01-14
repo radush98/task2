@@ -6,7 +6,7 @@ import { Home } from './pages/Home';
 function App() {
   return (
     <BrowserRouter>
-      <div className="container">
+      <div className="wrapper">
         <Routes>
           <Route path={'/'} element={<Home/>} />
           <Route path={'/archive'} element={<Archive/>} />
