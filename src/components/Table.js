@@ -1,7 +1,8 @@
 import React from 'react';
+import getNotes from '../services/sortNotes';
 import { TableRow } from './TableRow';
 
-export const Table = ({ notes }) => {
+export const Table = ({ isArchived }) => {
     return (
         <div className="top-table">
             <table className="table">
@@ -31,8 +32,8 @@ export const Table = ({ notes }) => {
                 </thead>
                 <tbody className="table-body" id="main-content">
                     {
-                        notes.map(note => (
-                            <TableRow key={note.id} note = {note}>
+                        getNotes(isArchived).map(note => (
+                            <TableRow key={note.id} note={note}>
                             </TableRow>
                         ))
                     }

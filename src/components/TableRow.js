@@ -1,9 +1,11 @@
 import React from "react";
+import getCategoryImage from "../services/sortCategoryIcons";
 
 export const TableRow = ({ note }) => {
+    console.log(getCategoryImage(note.category));
     return (
         <tr className='row'>
-            <td><img src="${getIcon(obj.category)}" /></td>
+            <td><img src={require(`../img/${getCategoryImage(note.category)}`)} alt='icon' /></td>
             <td>{note.name}</td>
             <td className="created">{note.created}</td>
             <td>{note.category}</td>
