@@ -1,3 +1,5 @@
+import { ADD_NOTE } from "./types";
+
 const initialState = {
     notes: [
         {
@@ -54,10 +56,17 @@ const initialState = {
             dates: '',
             archive: true
         }
-    ]
+    ],
 }
 
 export const notesReducer = (state = initialState, action) => {
-    console.log(action.type);
-    return state;
+    switch (action.type) {
+        case ADD_NOTE:
+            return {
+                ...state,
+                notes: [...state.notes, action.note]
+            }
+        default:
+            return state;
+    }
 }

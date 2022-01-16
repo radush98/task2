@@ -17,7 +17,6 @@ export class Home extends Component {
     setCurrentNote = currentNote => {
         this.changeState(true);
         this.setState({ currentNote });
-        // console.log(currentNote);
     }
 
     createNote = () => {

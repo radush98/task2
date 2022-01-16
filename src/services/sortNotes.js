@@ -1,6 +1,4 @@
-import notes from '../data/notes.js';
-
-function getNotes(isArchived){
+function getNotes(isArchived, notes){
     return notes.filter(note => note.archive === isArchived);
 }
 

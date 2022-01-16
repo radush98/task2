@@ -1,14 +1,16 @@
 import React from 'react';
 import { Fragment } from 'react/cjs/react.production.min';
 import { TableRow } from './TableRow';
+import getNotes from '../services/sortNotes';
 import { useDispatch, useSelector } from 'react-redux';
-import { addNote } from '../redux/actions';
+import { addNote, filterNotes } from '../redux/actions';
 
 const Table = ({ isArchived, setCurrentNote }) => {
     const notes = useSelector(state => {
         const { notesReducer } = state;
         return notesReducer.notes;
     });
+
     return (
         <div className="top-table">
             <table className="table">
@@ -46,12 +48,7 @@ const Table = ({ isArchived, setCurrentNote }) => {
                         notes.map(note => (
                             <TableRow key={note.id} note={note} setCurrentNote={setCurrentNote}>
                             </TableRow>
-                        )
-                        )
-                        // getNotes(isArchived).map(note => (
-                        //     <TableRow key={note.id} note={note} isArchived={isArchived} setCurrentNote={setCurrentNote}>
-                        //     </TableRow>
-                        // ))
+                        ))
                     }
                 </tbody>
             </table>

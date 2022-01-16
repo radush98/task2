@@ -1,7 +1,8 @@
 import { ADD_NOTE } from "./types";
 
-export function addNote() {
+export function addNote(note) {
     return {
-        type: ADD_NOTE
+        type: ADD_NOTE,
+        note
     }
 }

@@ -1,10 +1,14 @@
 import React, { useRef } from "react";
 import { categories } from "../data/categories";
+import { addNote } from "../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
 
 export const Form = ({ displayMode, changeState, currentNote }) => {
     const nameRef = useRef('');
     const contentRef = useRef('');
     const categoryRef = useRef('');
+
+    const dispatch = useDispatch();
 
     const clearForm = () => {
         nameRef.current.value = '';
@@ -12,7 +16,7 @@ export const Form = ({ displayMode, changeState, currentNote }) => {
         categoryRef.current.value = '';
     }
 
-    const addNote = (event) => {
+    const submit = (event) => {
         event.preventDefault();
         const date = new Date();
 
@@ -25,8 +29,8 @@ export const Form = ({ displayMode, changeState, currentNote }) => {
             dates: '',
             archived: false
         }
-
-        // notes.push(newNote); //temporary
+        
+        dispatch(addNote(newNote));
         clearForm();
         hideForm(event);
     }
@@ -58,7 +62,7 @@ export const Form = ({ displayMode, changeState, currentNote }) => {
                 <label htmlFor="content">Content:</label>
                 <textarea ref={contentRef} id="content" required defaultValue={(currentNote != null)?currentNote.content:''}></textarea>
             </div>
-            <button id="submit" onClick={addNote}>Submit</button>
+            <button id="submit" onClick={submit}>Submit</button>
             <button id="close" onClick={hideForm}>X</button>
         </form>) : null
     )
