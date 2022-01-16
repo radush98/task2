@@ -1,18 +1,45 @@
-import React, { Fragment } from "react";
+import React, { Fragment, Component } from "react";
 import { Control } from "../components/Control";
 import { Form } from "../components/Form";
 import { Table } from "../components/Table";
 
-export const Home = () => {
-    return (
-        <Fragment>
-            <h1>Notes</h1>
-            <Table isArchived={false}></Table>
-            <div className="main-controls">
-                <Control name={'Archive'} link={'/archive'}></Control>
-                <button className="main-controls-button">Create note</button>
-            </div>
-            <Form></Form>
-        </Fragment>
-    )
+export class Home extends Component {
+
+    state = {
+        displayMode: false,
+        currentNote: null
+    }
+
+    changeState = displayMode => {
+        this.setState({ displayMode });
+    }
+
+    setCurrentNote = currentNote => {
+        this.changeState(true);
+        this.setState({ currentNote });
+        console.log(currentNote);
+    }
+
+    createNote = () => {
+        this.changeState(true);
+        this.setCurrentNote(null);
+    }
+
+    render() {
+        return (
+            <Fragment>
+                <h1>Notes</h1>
+                <Table isArchived={false} setCurrentNote={this.setCurrentNote}></Table>
+                <div className="main-controls">
+                    <Control name={'Archive'} link={'/archive'}></Control>
+                    <button className="main-controls-button" onClick={() => this.createNote(true)}>Create note</button>
+                </div>
+                <Form
+                    displayMode={this.state.displayMode}
+                    changeState={this.changeState}
+                    currentNote={this.state.currentNote}>
+                </Form>
+            </Fragment>
+        )
+    }
 }

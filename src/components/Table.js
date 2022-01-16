@@ -1,8 +1,11 @@
 import React from 'react';
+import { Fragment } from 'react/cjs/react.production.min';
 import getNotes from '../services/sortNotes';
 import { TableRow } from './TableRow';
+import store from '../redux/store';
 
-export const Table = ({ isArchived }) => {
+
+export const Table = ({ isArchived, setCurrentNote }) => {
     return (
         <div className="top-table">
             <table className="table">
@@ -23,17 +26,22 @@ export const Table = ({ isArchived }) => {
                         <td>Category</td>
                         <td>Content</td>
                         <td>Dates</td>
-                        <td>
-                            <button className="table-body-button" id="placehoder">Edit</button>
-                            <button className="table-body-button" id="archive-all">Archive</button>
-                            <button className="table-body-button" id="delete-all">Delete</button>
+                        <td>{
+                            !isArchived ? (
+                                <Fragment>
+                                    <button className="table-body-button" id="placehoder">Edit</button>
+                                    <button className="table-body-button" id="archive-all">Archive</button>
+                                    <button className="table-body-button" id="delete-all">Delete</button>
+                                </Fragment>
+                            ) : <button className="table-body-button" id="unarchive-all">Unarchive</button>
+                        }
                         </td>
                     </tr>
                 </thead>
                 <tbody className="table-body" id="main-content">
                     {
                         getNotes(isArchived).map(note => (
-                            <TableRow key={note.id} note={note}>
+                            <TableRow key={note.id} note={note} isArchived={isArchived} setCurrentNote={setCurrentNote}>
                             </TableRow>
                         ))
                     }
