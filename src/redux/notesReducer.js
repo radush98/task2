@@ -1,7 +1,5 @@
-import { createStore } from "redux";
-
 const initialState = {
-    notes:[
+    notes: [
         {
             id: 0,
             name: "Shopping List",
@@ -48,7 +46,7 @@ const initialState = {
             archive: false
         },
         {
-            id: 4,
+            id: 5,
             name: "What about inventions?",
             created: 'September 30, 2021',
             category: 'Idea',
@@ -59,11 +57,7 @@ const initialState = {
     ]
 }
 
-const reducer = (state = initialState, action) => {
-    console.log('reducer >', action);
+export const notesReducer = (state = initialState, action) => {
+    console.log(action.type);
     return state;
 }
-
-const store = createStore(reducer);
-
-export default store;

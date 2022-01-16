@@ -1,7 +1,7 @@
 import React, { Fragment, Component } from "react";
 import { Control } from "../components/Control";
 import { Form } from "../components/Form";
-import { Table } from "../components/Table";
+import Table from "../components/Table";
 
 export class Home extends Component {
 
@@ -17,11 +17,10 @@ export class Home extends Component {
     setCurrentNote = currentNote => {
         this.changeState(true);
         this.setState({ currentNote });
-        console.log(currentNote);
+        // console.log(currentNote);
     }
 
     createNote = () => {
-        this.changeState(true);
         this.setCurrentNote(null);
     }
 
@@ -29,10 +28,17 @@ export class Home extends Component {
         return (
             <Fragment>
                 <h1>Notes</h1>
-                <Table isArchived={false} setCurrentNote={this.setCurrentNote}></Table>
+                <Table
+                    isArchived={false}
+                    setCurrentNote={this.setCurrentNote}
+                >
+                </Table>
                 <div className="main-controls">
-                    <Control name={'Archive'} link={'/archive'}></Control>
-                    <button className="main-controls-button" onClick={() => this.createNote(true)}>Create note</button>
+                    <Control
+                        name={'Archive'}
+                        link={'/archive'}>
+                    </Control>
+                    <button className="main-controls-button" onClick={() => this.createNote()}>Create note</button>
                 </div>
                 <Form
                     displayMode={this.state.displayMode}

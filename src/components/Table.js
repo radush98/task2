@@ -1,11 +1,14 @@
 import React from 'react';
 import { Fragment } from 'react/cjs/react.production.min';
-import getNotes from '../services/sortNotes';
 import { TableRow } from './TableRow';
-import store from '../redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { addNote } from '../redux/actions';
 
-
-export const Table = ({ isArchived, setCurrentNote }) => {
+const Table = ({ isArchived, setCurrentNote }) => {
+    const notes = useSelector(state => {
+        const { notesReducer } = state;
+        return notesReducer.notes;
+    });
     return (
         <div className="top-table">
             <table className="table">
@@ -40,13 +43,20 @@ export const Table = ({ isArchived, setCurrentNote }) => {
                 </thead>
                 <tbody className="table-body" id="main-content">
                     {
-                        getNotes(isArchived).map(note => (
-                            <TableRow key={note.id} note={note} isArchived={isArchived} setCurrentNote={setCurrentNote}>
+                        notes.map(note => (
+                            <TableRow key={note.id} note={note} setCurrentNote={setCurrentNote}>
                             </TableRow>
-                        ))
+                        )
+                        )
+                        // getNotes(isArchived).map(note => (
+                        //     <TableRow key={note.id} note={note} isArchived={isArchived} setCurrentNote={setCurrentNote}>
+                        //     </TableRow>
+                        // ))
                     }
                 </tbody>
             </table>
         </div>
     )
 }
+
+export default Table;
