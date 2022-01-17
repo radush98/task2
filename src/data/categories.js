@@ -13,4 +13,8 @@ const categories = [
     }
 ];
 
+function getCategories() {
+    return categories.map(elem => elem.name);
+}
+
 export { categories };

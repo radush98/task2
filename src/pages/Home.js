@@ -1,50 +1,41 @@
-import React, { Fragment, Component } from "react";
+import React, { Fragment } from "react";
 import { Control } from "../components/Control";
 import { Form } from "../components/Form";
 import Table from "../components/Table";
+import { useDispatch } from "react-redux";
+import { setNote } from "../redux/actions";
+import { useState } from "react";
+import { SummaryTable } from "../components/SummaryTable";
 
-export class Home extends Component {
+export const Home = () => {
+    const dispatch = useDispatch();
 
-    state = {
-        displayMode: false,
-        currentNote: null
-    }
+    const [displayMode, setDisplayMode] = useState(false);
 
-    changeState = displayMode => {
-        this.setState({ displayMode });
-    }
-
-    setCurrentNote = currentNote => {
-        this.changeState(true);
-        this.setState({ currentNote });
-    }
-
-    createNote = () => {
-        this.setCurrentNote(null);
-    }
-
-    render() {
-        return (
-            <Fragment>
-                <h1>Notes</h1>
-                <Table
-                    isArchived={false}
-                    setCurrentNote={this.setCurrentNote}
-                >
-                </Table>
-                <div className="main-controls">
-                    <Control
-                        name={'Archive'}
-                        link={'/archive'}>
-                    </Control>
-                    <button className="main-controls-button" onClick={() => this.createNote()}>Create note</button>
-                </div>
-                <Form
-                    displayMode={this.state.displayMode}
-                    changeState={this.changeState}
-                    currentNote={this.state.currentNote}>
-                </Form>
-            </Fragment>
-        )
-    }
+    return (
+        <Fragment>
+            <h1>Notes</h1>
+            <Table
+                isArchived={false}
+                setDisplayMode = {setDisplayMode}
+            >
+            </Table>
+            <div className="main-controls">
+                <Control
+                    name={'Archive'}
+                    link={'/archive'}>
+                </Control>
+                <button className="main-controls-button" onClick={() => {
+                    dispatch(setNote(null));
+                    setDisplayMode(true)
+                }}>Create note</button>
+            </div>
+            <Form
+                displayMode={displayMode}
+                changeState={setDisplayMode}
+            >
+            </Form>
+            <SummaryTable></SummaryTable>
+        </Fragment>
+    )
 }

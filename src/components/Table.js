@@ -1,17 +1,17 @@
 import React from 'react';
 import { Fragment } from 'react/cjs/react.production.min';
 import { TableRow } from './TableRow';
-import getNotes from '../services/sortNotes';
-import { useDispatch, useSelector } from 'react-redux';
-import { addNote, filterNotes } from '../redux/actions';
+import { useSelector, useDispatch } from 'react-redux';
+import { archiveNote, deleteNote } from '../redux/actions';
 
-const Table = ({ isArchived, setCurrentNote }) => {
-    console.log(isArchived)
+const Table = ({ isArchived, setDisplayMode }) => {
 
     const notes = useSelector(state => {
         const { notesReducer } = state;
         return notesReducer.notes;
     });
+
+    const dispatch = useDispatch();
 
     return (
         <div className="top-table">
@@ -36,11 +36,34 @@ const Table = ({ isArchived, setCurrentNote }) => {
                         <td>{
                             !isArchived ? (
                                 <Fragment>
-                                    <button className="table-body-button" id="placehoder">Edit</button>
-                                    <button className="table-body-button" id="archive-all">Archive</button>
-                                    <button className="table-body-button" id="delete-all">Delete</button>
+                                    <button
+                                        className="table-body-button"
+                                        id="placehoder"
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                        className="table-body-button"
+                                        id="archive-all"
+                                        onClick={() => dispatch(archiveNote("All", true))}
+                                    >
+                                        Archive
+                                    </button>
+                                    <button
+                                        className="table-body-button"
+                                        id="delete-all"
+                                        onClick={() => dispatch(deleteNote("All", true))}>
+                                        Delete
+                                    </button>
                                 </Fragment>
-                            ) : <button className="table-body-button" id="unarchive-all">Unarchive</button>
+                            ) :
+                                <button
+                                    className="table-body-button"
+                                    id="unarchive-all"
+                                    onClick={() => dispatch(archiveNote("All", false))}
+                                >
+                                    Unarchive
+                                </button>
                         }
                         </td>
                     </tr>
@@ -48,11 +71,15 @@ const Table = ({ isArchived, setCurrentNote }) => {
                 <tbody className="table-body" id="main-content">
                     {
                         notes
-                        .filter(note => isArchived ? note.archive : !note.archive)
-                        .map(note => (
-                            <TableRow key={note.id} note={note} setCurrentNote={setCurrentNote}>
-                            </TableRow>
-                        ))
+                            .filter(note => isArchived ? note.archive : !note.archive)
+                            .map(note => (
+                                <TableRow
+                                    key={note.id}
+                                    note={note}
+                                    setDisplayMode={setDisplayMode}
+                                    isArchived={isArchived}>
+                                </TableRow>
+                            ))
                     }
                 </tbody>
             </table>

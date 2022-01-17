@@ -1,4 +1,4 @@
-import { ADD_NOTE } from "./types";
+import { ADD_NOTE, ARCHIVE_NOTE, DELETE_NOTE } from "./types";
 
 const initialState = {
     notes: [
@@ -60,12 +60,34 @@ const initialState = {
 }
 
 export const notesReducer = (state = initialState, action) => {
+    let newNotes = state.notes;
+    const { id } = action;
+
     switch (action.type) {
         case ADD_NOTE:
             return {
                 ...state,
                 notes: [...state.notes, action.note]
             }
+
+        case ARCHIVE_NOTE:
+            const { isArchived } = action
+            if (id === "All")
+                newNotes.forEach(note => note.archive = isArchived);
+            else
+                newNotes.forEach(note => (note.id === id) ? note.archive = isArchived : note);
+            return {
+                ...state,
+                notes: [...newNotes]
+            }
+
+        case DELETE_NOTE:
+            newNotes = (id === "All") ? [] : newNotes.filter(note => note.id !== id)
+            return {
+                ...state,
+                notes: [...newNotes]
+            }
+
         default:
             return state;
     }

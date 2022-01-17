@@ -1,19 +1,30 @@
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import { categories } from "../data/categories";
 import { addNote } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
+import parseData from "../services/getData";
 
-export const Form = ({ displayMode, changeState, currentNote }) => {
-    const nameRef = useRef('');
-    const contentRef = useRef('');
-    const categoryRef = useRef('');
-
+export const Form = ({ displayMode, changeState }) => {
     const dispatch = useDispatch();
+    
+    const note = useSelector(state => {
+        const { formReducer } = state;
+        return formReducer.note;
+    });
+
+    const [name, setName] = useState((note != null) ? note.name : '');
+    const [category, setCategory] = useState((note != null) ? note.category : '');
+    const [content, setContent] = useState((note != null) ? note.content : '');
 
     const clearForm = () => {
-        nameRef.current.value = '';
-        contentRef.current.value = '';
-        categoryRef.current.value = '';
+        setName('');
+        setCategory('');
+        setContent('');
+    }
+
+    const checkInput = (value, setter) => {
+        if (value === '')
+            setter('Task');
     }
 
     const submit = (event) => {
@@ -22,14 +33,14 @@ export const Form = ({ displayMode, changeState, currentNote }) => {
 
         const newNote = {
             id: +date,
-            name: nameRef.current.value,
+            name: name,
             created: `${date.toLocaleString('en', { month: 'long' })} ${date.getDate()}, ${date.getFullYear()}`,
-            category: categoryRef.current.value,
-            content: contentRef.current.value,
-            dates: '',
+            category: category ? category : "Task",
+            content: content,
+            dates: parseData(content),
             archived: false
         }
-        
+
         dispatch(addNote(newNote));
         clearForm();
         hideForm(event);
@@ -41,15 +52,24 @@ export const Form = ({ displayMode, changeState, currentNote }) => {
     }
 
     return (
-        displayMode ? (<form className='form' id="form" >
+        displayMode ? (<form className='form' id="form">
             <div className="form-element">
                 <label htmlFor="name">Name:</label>
-                <input ref={nameRef} type="text" id="name" required defaultValue={(currentNote != null)?currentNote.name:''} />
+                <input
+                    type="text"
+                    id="name"
+                    value={name}
+                    onChange={event => setName(event.target.value)}
+                    onBlur={event => checkInput(event.target.value, setName)} />
             </div>
 
             <div className="form-element">
                 <label htmlFor="category">Category:</label>
-                <select ref={categoryRef} id="category" defaultValue={(currentNote != null)?currentNote.category:''}>
+                <select
+                    id="category"
+                    value={category}
+                    onChange={event => setCategory(event.target.value)}
+                    onBlur={event => checkInput(event.target.value, setCategory)}>
                     {
                         categories.map(category => (
                             <option value={category.name} key={categories.indexOf(category)}>{category.name}</option>
@@ -60,7 +80,12 @@ export const Form = ({ displayMode, changeState, currentNote }) => {
 
             <div className="form-element">
                 <label htmlFor="content">Content:</label>
-                <textarea ref={contentRef} id="content" required defaultValue={(currentNote != null)?currentNote.content:''}></textarea>
+                <textarea
+                    id="content"
+                    value={content}
+                    onChange={event => setContent(event.target.value)}
+                    onBlur={event => checkInput(event.target.value, setContent)}>
+                </textarea>
             </div>
             <button id="submit" onClick={submit}>Submit</button>
             <button id="close" onClick={hideForm}>X</button>

@@ -1,14 +1,16 @@
+import { SET_NOTE } from "./types"
+
 const initialState = {
-    isEdited:false,
-    id:null
+    isEdited: false,
+    note: null,
 }
 
 export const formReducer = (state = initialState, action) => {
     switch (action.type) {
-        case EDIT_NOTE:
+        case SET_NOTE:
             return {
                 ...state,
-                isEdited:false
+                note: action.note
             }
         default:
             return state;
