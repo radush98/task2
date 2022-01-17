@@ -13,7 +13,7 @@ export const Form = ({ displayMode, changeState }) => {
         return formReducer.note;
     });
 
-    console.log(note)
+    // console.log(note)
 
     const [name, setName] = useState(note.name);
     const [category, setCategory] = useState(note.category);
@@ -42,6 +42,7 @@ export const Form = ({ displayMode, changeState }) => {
     }
 
     const createNewNote = (date) => {
+        console.log("Add>>")
         const newNote = {
             id: +date,
             name: name,
@@ -73,6 +74,8 @@ export const Form = ({ displayMode, changeState }) => {
     const submit = (event) => {
         const date = new Date();
         event.preventDefault();
+
+        console.log(note.id)
 
         !note.id ? createNewNote(date) : edit(date);
 

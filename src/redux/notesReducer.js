@@ -3,7 +3,7 @@ import { ADD_NOTE, ARCHIVE_NOTE, DELETE_NOTE, EDIT_NOTE } from "./types";
 const initialState = {
     notes: [
         {
-            id: 0,
+            id: 1,
             name: "Shopping List",
             created: 'May 20, 2020',
             category: 'Task',
@@ -12,7 +12,7 @@ const initialState = {
             archive: false
         },
         {
-            id: 1,
+            id: 2,
             name: "The theory of evolution",
             created: 'July 30, 2020',
             category: 'Random_thought',
@@ -21,7 +21,7 @@ const initialState = {
             archive: false
         },
         {
-            id: 2,
+            id: 3,
             name: "New Feature",
             created: 'December 25, 2020',
             category: 'Idea',
@@ -30,7 +30,7 @@ const initialState = {
             archive: false
         },
         {
-            id: 3,
+            id: 4,
             name: "Books",
             created: 'February 10, 2021',
             category: 'Task',
@@ -39,7 +39,7 @@ const initialState = {
             archive: false
         },
         {
-            id: 4,
+            id: 5,
             name: "William Gaddis",
             created: 'September 9, 2021',
             category: 'Task',
@@ -48,7 +48,7 @@ const initialState = {
             archive: false
         },
         {
-            id: 5,
+            id: 6,
             name: "What about inventions?",
             created: 'September 30, 2021',
             category: 'Idea',
