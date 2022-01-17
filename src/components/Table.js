@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addNote, filterNotes } from '../redux/actions';
 
 const Table = ({ isArchived, setCurrentNote }) => {
+    console.log(isArchived)
+
     const notes = useSelector(state => {
         const { notesReducer } = state;
         return notesReducer.notes;
@@ -45,7 +47,9 @@ const Table = ({ isArchived, setCurrentNote }) => {
                 </thead>
                 <tbody className="table-body" id="main-content">
                     {
-                        notes.map(note => (
+                        notes
+                        .filter(note => isArchived ? note.archive : !note.archive)
+                        .map(note => (
                             <TableRow key={note.id} note={note} setCurrentNote={setCurrentNote}>
                             </TableRow>
                         ))
