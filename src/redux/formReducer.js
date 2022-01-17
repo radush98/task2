@@ -1,8 +1,11 @@
 import { SET_NOTE } from "./types"
 
 const initialState = {
-    isEdited: false,
-    note: null,
+    note: {
+        name:'',
+        category:'',
+        content:''
+    },
 }
 
 export const formReducer = (state = initialState, action) => {

@@ -17,7 +17,7 @@ export const Home = () => {
             <h1>Notes</h1>
             <Table
                 isArchived={false}
-                setDisplayMode = {setDisplayMode}
+                setDisplayMode={setDisplayMode}
             >
             </Table>
             <div className="main-controls">
@@ -26,7 +26,11 @@ export const Home = () => {
                     link={'/archive'}>
                 </Control>
                 <button className="main-controls-button" onClick={() => {
-                    dispatch(setNote(null));
+                    dispatch(setNote({
+                        name: '',
+                        category: '',
+                        content: ''
+                    }));
                     setDisplayMode(true)
                 }}>Create note</button>
             </div>

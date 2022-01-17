@@ -13,8 +13,8 @@ const categories = [
     }
 ];
 
-function getCategories() {
+function getCategoriesNames() {
     return categories.map(elem => elem.name);
 }
 
-export { categories };
+export { categories, getCategoriesNames };

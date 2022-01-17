@@ -1,4 +1,4 @@
-import { ADD_NOTE, ARCHIVE_NOTE, DELETE_NOTE } from "./types";
+import { ADD_NOTE, ARCHIVE_NOTE, DELETE_NOTE, EDIT_NOTE } from "./types";
 
 const initialState = {
     notes: [
@@ -8,7 +8,7 @@ const initialState = {
             created: 'May 20, 2020',
             category: 'Task',
             content: 'lorem ipsum bla-...',
-            dates: '',
+            dates: '-',
             archive: false
         },
         {
@@ -17,7 +17,7 @@ const initialState = {
             created: 'July 30, 2020',
             category: 'Random_thought',
             content: 'The evolution is...',
-            dates: '',
+            dates: '-',
             archive: false
         },
         {
@@ -26,7 +26,7 @@ const initialState = {
             created: 'December 25, 2020',
             category: 'Idea',
             content: 'Implemented new feature',
-            dates: '',
+            dates: '-',
             archive: false
         },
         {
@@ -35,7 +35,7 @@ const initialState = {
             created: 'February 10, 2021',
             category: 'Task',
             content: 'New startup',
-            dates: '',
+            dates: '-',
             archive: false
         },
         {
@@ -44,7 +44,7 @@ const initialState = {
             created: 'September 9, 2021',
             category: 'Task',
             content: 'Meet William',
-            dates: '',
+            dates: '-',
             archive: false
         },
         {
@@ -53,7 +53,7 @@ const initialState = {
             created: 'September 30, 2021',
             category: 'Idea',
             content: 'Try to develop time machine',
-            dates: '',
+            dates: '-',
             archive: true
         }
     ],
@@ -68,6 +68,18 @@ export const notesReducer = (state = initialState, action) => {
             return {
                 ...state,
                 notes: [...state.notes, action.note]
+            }
+
+        case EDIT_NOTE:
+            console.log("EDIT>>")
+            const { note } = action;
+            const index = newNotes.findIndex(oldNote => oldNote.id === note.id)
+            console.log(index)
+            newNotes.splice(index, 1, note)
+            console.log(newNotes)
+            return {
+                ...state,
+                notes: [...newNotes]
             }
 
         case ARCHIVE_NOTE:

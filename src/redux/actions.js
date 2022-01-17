@@ -1,4 +1,4 @@
-import { ADD_NOTE, SET_NOTE, ARCHIVE_NOTE, DELETE_NOTE } from "./types";
+import { ADD_NOTE, SET_NOTE, ARCHIVE_NOTE, DELETE_NOTE, EDIT_NOTE } from "./types";
 
 /*main actions*/
 export function addNote(note) {
@@ -27,5 +27,12 @@ export function deleteNote(id) {
     return {
         type: DELETE_NOTE,
         id
+    }
+}
+
+export function editNote(note) {
+    return {
+        type: EDIT_NOTE,
+        note
     }
 }

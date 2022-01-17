@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { categories } from '../data/categories';
 import { SummaryTableRow } from './SummaryTableRow';
+import { getCategoriesNames } from '../data/categories';
 
 export const SummaryTable = () => {
     const notes = useSelector(state => {
@@ -12,16 +13,13 @@ export const SummaryTable = () => {
     const calculateStatistic = () => {
         const statistic = [];
         for (let category of categories) {
-            console.log(notes)
             statistic.push({
                 icon: category.icon,
                 note_category: category.name,
                 active: notes.filter(elem => elem.category === category.name).length,
-                archived: notes.filter(elem => elem.category === category.name && elem.archive == true).length,
+                archived: notes.filter(elem => elem.category === category.name && elem.archive === true).length,
             })
         }
-
-        console.log(statistic)
         return statistic;
     }
 
@@ -47,7 +45,10 @@ export const SummaryTable = () => {
                     {
                         calculateStatistic().map(
                             category => (
-                                <SummaryTableRow key={categories.indexOf(category.note_category)} category={category}></SummaryTableRow>
+                                <SummaryTableRow
+                                    key={getCategoriesNames().indexOf(category.note_category)}
+                                    category={category}>
+                                </SummaryTableRow>
                             )
                         )
                     }

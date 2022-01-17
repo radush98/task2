@@ -1,25 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { categories } from "../data/categories";
-import { addNote } from "../redux/actions";
+import { addNote, editNote } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import parseData from "../services/getData";
+import { setNote } from "../redux/actions";
 
 export const Form = ({ displayMode, changeState }) => {
     const dispatch = useDispatch();
-    
+
     const note = useSelector(state => {
         const { formReducer } = state;
         return formReducer.note;
     });
 
-    const [name, setName] = useState((note != null) ? note.name : '');
-    const [category, setCategory] = useState((note != null) ? note.category : '');
-    const [content, setContent] = useState((note != null) ? note.content : '');
+    console.log(note)
+
+    const [name, setName] = useState(note.name);
+    const [category, setCategory] = useState(note.category);
+    const [content, setContent] = useState(note.content);
+
+    useEffect(() => {
+        setName(note.name);
+        setCategory(note.category);
+        setContent(note.content);
+    }, [note.name, note.category, note.content])
 
     const clearForm = () => {
         setName('');
         setCategory('');
         setContent('');
+        dispatch(setNote({
+            name: '',
+            category: '',
+            content: ''
+        }));
     }
 
     const checkInput = (value, setter) => {
@@ -27,10 +41,7 @@ export const Form = ({ displayMode, changeState }) => {
             setter('Task');
     }
 
-    const submit = (event) => {
-        event.preventDefault();
-        const date = new Date();
-
+    const createNewNote = (date) => {
         const newNote = {
             id: +date,
             name: name,
@@ -42,6 +53,29 @@ export const Form = ({ displayMode, changeState }) => {
         }
 
         dispatch(addNote(newNote));
+    }
+
+    const edit = (date) => {
+        console.log("FORM EDIT>>")
+        const edited = {
+            id: note.id,
+            name: name,
+            created: `${date.toLocaleString('en', { month: 'long' })} ${date.getDate()}, ${date.getFullYear()}`,
+            category: category ? category : "Task",
+            content: content,
+            dates: parseData(content),
+            archived: false
+        }
+
+        dispatch(editNote(edited))
+    }
+
+    const submit = (event) => {
+        const date = new Date();
+        event.preventDefault();
+
+        !note.id ? createNewNote(date) : edit(date);
+
         clearForm();
         hideForm(event);
     }
@@ -60,7 +94,8 @@ export const Form = ({ displayMode, changeState }) => {
                     id="name"
                     value={name}
                     onChange={event => setName(event.target.value)}
-                    onBlur={event => checkInput(event.target.value, setName)} />
+                    onBlur={event => checkInput(event.target.value, setName)}
+                />
             </div>
 
             <div className="form-element">

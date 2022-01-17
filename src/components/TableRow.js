@@ -17,10 +17,11 @@ export const TableRow = ({ note, isArchived, setDisplayMode }) => {
             <td>{
                 !isArchived ? (
                     <Fragment>
-                        <button className="table-body-button-edit" onClick={() => {
-                            dispatch(setNote(note));
-                            setDisplayMode(true)
-                        }}>
+                        <button className="table-body-button-edit"
+                            onClick={() => {
+                                setDisplayMode(true);
+                                dispatch(setNote(note));
+                            }}>
                             Edit
                         </button>
                         <button
